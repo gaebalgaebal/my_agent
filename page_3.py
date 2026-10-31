@@ -1,10 +1,14 @@
 import pandas as pd
 import streamlit as st
 
-st.title("Widget & 파일 업로드")
-st.header("기본 위젯")
-name = st.text_input("이름")
-subject = st.selectbox("학습 주제", ["Streamlit", "LangChain", "AI Agent"])
+st.title("📂 엑셀 조회")
+st.caption("엑셀 파일을 올리고 시트 내용을 확인하세요.")
+st.subheader("간단한 인사")
+left, right = st.columns(2)
+with left:
+    name = st.text_input("이름", placeholder="이름을 입력하세요")
+with right:
+    subject = st.selectbox("학습 주제", ["Streamlit", "LangChain", "AI Agent"])
 if st.button("인사하기"):
     st.success(f"{name or '방문자'}님, 반갑습니다! {subject}을 함께 배워요.")
 
@@ -23,12 +27,13 @@ def show_excel(uploaded_file):
         st.error("엑셀 파일을 읽을 수 없습니다. 암호화되지 않은 정상적인 .xlsx 또는 .xls 파일인지 확인하세요.")
 
 
-st.header("단일 파일 업로드")
+st.divider()
+st.subheader("파일 하나")
 single = st.file_uploader("엑셀 파일을 선택하세요", type=["xlsx", "xls"], key="single")
 if single is not None:
     show_excel(single)
 
-st.header("복수 파일 업로드")
+st.subheader("여러 파일")
 multiple = st.file_uploader(
     "엑셀 파일을 여러 개 선택하세요",
     type=["xlsx", "xls"],

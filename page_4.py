@@ -15,7 +15,7 @@ def latest_rate(base, quote):
 
 
 st.title("💱 환율 조회")
-st.caption("Frankfurter Exchange Rates API로 최신 환율을 조회하고 금액을 환산합니다.")
+st.caption("통화와 금액을 선택하면 최신 환율로 계산합니다.")
 
 try:
     with st.spinner("통화 목록을 불러오는 중..."):
@@ -41,7 +41,7 @@ with st.form("exchange_form"):
             format_func=lambda code: f"{code} · {available[code]}",
         )
     amount = st.number_input("환산할 금액", min_value=0.0, max_value=1e12, value=1.0, step=1.0)
-    submitted = st.form_submit_button("환율 조회", type="primary")
+    submitted = st.form_submit_button("환율 조회", type="primary", width="stretch")
 
 if submitted:
     # 조회 실패 시 이전 결과를 현재 입력의 결과처럼 표시하지 않습니다.
@@ -62,16 +62,17 @@ if submitted:
 
 if "exchange_result" in st.session_state:
     result = st.session_state.exchange_result
-    st.subheader("조회 결과")
+    st.divider()
+    st.subheader("환산 결과")
     st.metric(
         f"{result['amount']:,.2f} {result['base']} 환산 금액",
         f"{result['amount'] * result['rate']:,.2f} {result['quote']}",
     )
     st.write(f"1 {result['base']} = {result['rate']:,.6f} {result['quote']}")
     if result["date"]:
-        st.caption(f"API 제공 기준일: {result['date']} · 환율 캐시 최대 1시간")
+        st.caption(f"기준일 {result['date']}")
     else:
-        st.caption("같은 통화는 환율 1로 환산합니다. API 조회는 하지 않습니다.")
+        st.caption("같은 통화의 환율은 1입니다.")
 
 st.caption("일별 참고 환율이며, 은행의 실제 환전 수수료와 매매 환율은 반영하지 않습니다.")
-st.markdown("데이터 출처: [Frankfurter](https://frankfurter.dev/) · API 키 불필요")
+st.markdown("출처: [Frankfurter](https://frankfurter.dev/)")

@@ -4,12 +4,13 @@ import streamlit as st
 from langchain.chat_models import init_chat_model
 from openai import APIConnectionError, APIStatusError, AuthenticationError, RateLimitError
 
-st.title("AI Agent")
-st.caption("LangChain과 Streamlit으로 만드는 기초 챗봇")
+st.title("💬 챗봇")
+st.caption("궁금한 내용을 자유롭게 물어보세요.")
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+st.sidebar.subheader("대화 설정")
 mode = st.sidebar.radio("응답 방식", ["AI 챗봇", "기초 인사 실습"])
 model_name = os.getenv("OPENAI_MODEL", "gpt-5.4-mini")
 st.sidebar.caption(f"모델: {model_name}")
@@ -18,7 +19,7 @@ if st.sidebar.button("대화 초기화"):
 
 has_key = bool(os.getenv("OPENAI_API_KEY", "").strip())
 if mode == "AI 챗봇" and not has_key:
-    st.info("AI 응답을 사용하려면 .env에 OPENAI_API_KEY를 설정하고 앱을 다시 실행하세요. 기초 인사 실습은 키 없이 사용할 수 있습니다.")
+    st.info(".env에 API 키를 설정하면 AI 챗봇을 사용할 수 있습니다.")
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
