@@ -11,6 +11,7 @@ pages = st.navigation(
         st.Page("page_1.py", title="챗봇", icon="💬"),
         st.Page("page_2.py", title="Text Elements", icon="📝"),
         st.Page("page_3.py", title="Widget & 파일 업로드", icon="📂"),
+        st.Page("page_4.py", title="환율 조회", icon="💱"),
     ],
     position="top",
 )
